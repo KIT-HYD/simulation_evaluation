@@ -2,7 +2,17 @@
 FROM python:3.12
 
 # install the toolbox runner tools
-RUN pip install "json2args[data]>=0.6.2"
+RUN pip install \
+    "json2args>=0.7.0" \
+    pandas \
+    numpy \
+    plotly \
+    seaborn \
+    matplotlib \
+    scikit-learn \
+    pathlib \
+    statsmodels \
+    jinja2
 
 # if you do not need data-preloading as your tool does that on its own
 # you can use this instread of the line above to use a json2args version
