@@ -3,7 +3,7 @@ FROM python:3.12
 
 # install the toolbox runner tools
 RUN pip install \
-    "json2args>=0.7.0" \
+    json2args \
     pandas \
     numpy \
     plotly \
