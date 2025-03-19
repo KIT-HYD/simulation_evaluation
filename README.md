@@ -1,11 +1,53 @@
 # tool_simulation_evaluation
 
-[![Docker Image CI](https://https://github.com/KIT-HYD/simulation_evaluation/blob/combined-data/.github/workflows/docker-image.yml)](https://github.com/KIT-HYD/simulation_evaluation/blob/combined-data/.github/workflows/docker-image.yml)
+[![Docker Image CI](https://https://github.com/KIT-HYD/simulation_evaluation/blob/combined-data/.github/workflows/docker-image.yml/badge.svg)](https://github.com/KIT-HYD/simulation_evaluation/blob/combined-data/.github/workflows/docker-image.yml)
 
 
 This is a containerized Python tool following the Tool Specification for reusable research software using Docker.
 
+Data:
+CAMELS-DE: hydrometeorological time series and attributes for 1582 catchments in Germany
+A. Dolich et al.
+https://doi.org/10.5281/zenodo.13837553
 
+Model code and software:
+Hy2DL: Hybrid Hydrological modeling using Deep Learning methods
+Eduardo Acuña Espinoza et al.
+https://github.com/KIT-HYD/Hy2DL/tree/v1.1
+
+## Description
+
+The simulation evaluation tool is designed to assess the performance of hydrological simulations against observed hydrological data. It automates the process
+of loading data from multiple catchments, computing key evaluation metrics, and generating visualizations for a comprehensive analysis. The tool outputs an
+interactive HTML report containing performance summaries, time series plots, and statistical comparisons. The tool also outputs a .csv file conatining all the
+metrics for the cathcments.
+
+## Key features
+
+## 1. Data loading and preprocessing
+
+- Supports loading both simulation and observation data from CSV or Parquet files.
+- Allows flexible structure
+    - Separate files for observed and simulated data
+    - A single file containing both observations and simulations
+- Uses wildcards to match multiple files within directories.
+
+## 2. Performance metrics
+ - For each catchment, the tool calculates the most frequently used hydrological performance metrics, such as:
+    - Nash-Sutcliffe Efficiency (NSE)
+    - Kling-Gupta Efficiency (KGE)
+    - Coefficient of determination (R2)
+    - Mean Squared Error (MSE)
+    - Root Mean Squared Error (RMSE)
+
+## 3. Output generation
+
+- Saves results in .csv and .json formats:
+    - metrics_summary.csv - A summary of computed metrics for all cathcments
+    - metrics_summary.json - JSON representation for programmatic access
+- Generates an HTML report containing:
+    - Time series plots for catcments
+    - Performance metric tables
 
 
 ## How generic?
