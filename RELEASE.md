@@ -1,5 +1,5 @@
-# tool_template_python
+# tool_simulation_evaluation
 
-This is the template for a generic containerized Python tool following the [Tool Specification](https://vforwater.github.io/tool-specs/) for reusable research software using Docker.
+This is a containerized Python tool following the Tool Specification for reusable research software using Docker.
 
 This template can be used to generate new Github repositories from it.

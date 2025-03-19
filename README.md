@@ -1,11 +1,11 @@
-# tool_template_python
+# tool_simulation_evaluation
 
-[![Docker Image CI](https://github.com/VForWaTer/tool_template_python/actions/workflows/docker-image.yml/badge.svg)](https://github.com/VForWaTer/tool_template_python/actions/workflows/docker-image.yml)
-[![DOI](https://zenodo.org/badge/558416591.svg)](https://zenodo.org/badge/latestdoi/558416591)
+[![Docker Image CI](https://https://github.com/KIT-HYD/simulation_evaluation/blob/combined-data/.github/workflows/docker-image.yml)](https://github.com/KIT-HYD/simulation_evaluation/blob/combined-data/.github/workflows/docker-image.yml)
 
-This is the template for a generic containerized Python tool following the [Tool Specification](https://vforwater.github.io/tool-specs/) for reusable research software using Docker.
 
-This template can be used to generate new Github repositories from it.
+This is a containerized Python tool following the Tool Specification for reusable research software using Docker.
+
+
 
 
 ## How generic?
