@@ -1,15 +1,13 @@
 {
-    "foobar": {
+    "simulation_evaluation": {
         "parameters": {
-            "foo_int": 42,
-            "foo_float": 13.37,
-            "foo_string": "Never eat yellow snow",
-            "foo_enum": "bar",
-            "foo_array": [34, 55, 23, 43, 23]
+            "index_column": "date",
+            "observation_column": "obs",
+            "simulation_column": "sim"
         },
         "data": {
-            "foo_matrix": "/in/foo_matrix.dat",
-            "foo_csv": "/in/foo_csv.csv"
+            "simulation_data": "/in/DE*.csv",
+            "observation_data": "/in/DE*.csv"  
         }
     }
 }
