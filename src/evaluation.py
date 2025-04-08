@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 import numpy as np
 import seaborn as sns
@@ -9,7 +8,8 @@ import base64
 import json
 from io import BytesIO
 from pathlib import Path
-from jinja2 import FileSystemLoader, Environment
+import plotly.express as px
+
 
 def nse(observed, simulated):
     return 1 - np.sum((observed - simulated) ** 2) / np.sum((observed - np.mean(observed)) ** 2)
@@ -81,6 +81,14 @@ def generate_matplotlib_plot(catchment, df, index_column="date", observation_col
     plt.close()
     return img_base64
 
+def generate_plotly_plot(catchment, df, index_column="date", observation_column="obs", simulation_column="sim"):
+    fig = px.line(df, x=index_column, y=[observation_column, simulation_column], title=f'Time Series - {catchment}')
+    fig.update_xaxes(tickangle=45)
+    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
+    
+    fig_json = json.loads(fig.to_json())
+    return fig_json
+
 def generate_metrics_table(metrics):
     table_html = '<table class="table table-bordered table-striped">'
     table_html += '<thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>'
@@ -92,7 +100,7 @@ def generate_metrics_table(metrics):
 def process_all(data: dict[str, pd.DataFrame], observation_column="obs", simulation_column="sim"):
     results = []
     catchment_plots = {}
-    catchment_tables = {}
+    #catchment_tables = {}
     catchment_metrics = {}
     
     for name, df in data.items():
@@ -103,30 +111,18 @@ def process_all(data: dict[str, pd.DataFrame], observation_column="obs", simulat
         metrics = calculate_metrics(observed, simulated)
         results.append({'Catchment': name, **metrics})
         
-        plot_base64 = generate_matplotlib_plot(name, df, observation_column=observation_column, simulation_column=simulation_column)
-        metrics_table_html = generate_metrics_table(metrics)
-        
-        catchment_plots[name] = plot_base64
-        catchment_tables[name] = metrics_table_html
+        #plot_base64 = generate_matplotlib_plot(name, df, observation_column=observation_column, simulation_column=simulation_column)
+        #metrics_table_html = generate_metrics_table(metrics)
+        plot_json = generate_plotly_plot(name, df, observation_column=observation_column, simulation_column=simulation_column)
+        catchment_plots[name] = plot_json
+        #catchment_plots[name] = plot_base64
+        #catchment_tables[name] = metrics_table_html
         catchment_metrics[name] = metrics
     
     results_df = pd.DataFrame(results)
     results_df.to_csv("/out/metrics_summary.csv", index=False)
     results_df.to_json("/out/metrics_summary.json", orient="records", indent=4)
     
-    return catchment_plots, catchment_tables, catchment_metrics
-
-def create_output(data_names, catchment_plots, catchment_tables, catchment_metrics):
-    templateLoader = FileSystemLoader('./templates')
-    env = Environment(loader=templateLoader)
-    
-    json_plots = json.dumps(catchment_plots)
-    json_tables = json.dumps(catchment_tables)
-    json_metrics = json.dumps(catchment_metrics)
-    
-    template = env.get_template('default.html')
-    html_content = template.render(data_names=data_names, json_plots=json_plots, json_tables=json_tables, json_metrics=json_metrics)
-    
-    with open("/out/output.html", "w") as f:
-        f.write(html_content)
+    #return catchment_plots, catchment_tables, catchment_metrics
+    return catchment_plots, catchment_metrics
 

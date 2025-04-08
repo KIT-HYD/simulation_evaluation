@@ -1,6 +1,9 @@
 # Pull any base image that includes python3
 FROM python:3.12
 
+# add node
+RUN apt-get update && apt-get install -y nodejs npm
+
 # install the toolbox runner tools
 RUN pip install \
     json2args \
@@ -9,6 +12,7 @@ RUN pip install \
     plotly \
     seaborn \
     matplotlib \
+    plotly \
     scikit-learn \
     pathlib \
     statsmodels \
@@ -28,6 +32,8 @@ COPY ./in /in
 RUN mkdir /out
 RUN mkdir /src
 COPY ./src /src
+
+RUN cd /src/report && npm install
 
 # copy the citation file - looks funny to make COPY not fail if the file is not there
 COPY ./CITATION.cf[f] /src/CITATION.cff
