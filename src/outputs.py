@@ -9,12 +9,27 @@ from jinja2 import FileSystemLoader, Environment
 def create_output_resources(data_names, catchment_plots, catchment_metrics):
     report_src = Path('.') / "report" / "src"
     report_lib = report_src / "lib"
+    
+    # Create lib directory if it doesn't exist
+    report_lib.mkdir(parents=True, exist_ok=True)
 
+    # Create plot_data.js
     with open(report_lib / "plot_data.js", "w") as f:
         f.write(f"export const plots = {json.dumps(catchment_plots, indent=4)}")
 
+    # Create report_data.js
     with open(report_lib / "report_data.js", "w") as f:
         f.write(f"export const metrics = {json.dumps(catchment_metrics, indent=4)};\n\nexport const names = {json.dumps(data_names)};\n\n")
+    
+    # Create config.js
+    with open(report_lib / "config.js", "w") as f:
+        f.write('export const config = {\n    title: "Simulation Evaluation Report"\n};\n')
+    
+    # Create index.ts
+    with open(report_lib / "index.ts", "w") as f:
+        f.write("export { plots } from './plot_data.js';\n")
+        f.write("export { metrics, names } from './report_data.js';\n")
+        f.write("export { config } from './config.js';\n")
 
 def build_report():
     report_src = Path('.') / "report"
